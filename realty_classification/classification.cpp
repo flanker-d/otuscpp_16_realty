@@ -5,14 +5,7 @@ classification::classification(const std::string &modelfname)
   std::vector<double> labels;
   std::vector<realty_offer_t> offers;
 
-  dlib::deserialize(modelfname) >> offers >> labels;
-
-  ovo_trainer_t ovo_trainer;
-  dlib::krr_trainer<kernel_type_t> linear_trainer;
-  ovo_trainer.set_trainer(linear_trainer);
-
-  m_df = ovo_trainer.train(offers, labels);
-
+  dlib::deserialize(modelfname) >> offers >> labels >> m_df;
 
   for(std::size_t idx = 0; idx < labels.size(); idx++)
   {
