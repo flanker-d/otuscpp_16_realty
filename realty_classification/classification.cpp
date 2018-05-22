@@ -1,4 +1,5 @@
 #include "classification.h"
+#include <cmath>
 
 classification::classification(const std::string &modelfname)
 {
@@ -25,11 +26,16 @@ void classification::do_work()
     {
       auto& off_vect = offers_it->second;
       std::sort(off_vect.begin(), off_vect.end(), [offer](auto &lhs, auto &rhs){
-        return (offer(0) - lhs(0)) < (offer(0) - rhs(0));
+        return (std::sqrt(std::pow(offer(0) - lhs(0), 2) + std::pow(offer(1) - lhs(1), 2))) <
+               (std::sqrt(std::pow(offer(0) - rhs(0), 2) + std::pow(offer(1) - rhs(1), 2)));
       });
 
       for(auto &it : off_vect)
-        std::cout << it << std::endl;
+      {
+        for(int i = 0; i < 7; i++)
+          std::cout << std::setprecision(10) << it(i) << ";";
+        std::cout << std::endl;
+      }
     }
   }
 }
